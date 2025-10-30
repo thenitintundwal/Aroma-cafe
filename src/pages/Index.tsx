@@ -1,9 +1,11 @@
+import { Suspense, lazy } from "react";
 import Hero from "@/components/cafe/Hero";
 import About from "@/components/cafe/About";
 import Menu from "@/components/cafe/Menu";
-import Gallery from "@/components/cafe/Gallery";
 import Testimonials from "@/components/cafe/Testimonials";
 import Contact from "@/components/cafe/Contact";
+
+const Gallery = lazy(() => import("@/components/cafe/Gallery"));
 
 export default function Index() {
   return (
@@ -11,7 +13,9 @@ export default function Index() {
       <Hero />
       <About />
       <Menu />
-      <Gallery />
+      <Suspense fallback={<div className="h-[50vh]" />}>
+        <Gallery />
+      </Suspense>
       <Testimonials />
       <Contact />
     </main>

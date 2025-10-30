@@ -1,5 +1,11 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useRef, useState } from "react";
+import {
+  motion,
+  AnimatePresence,
+  useMotionValue,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 import ThemeToggle from "./ThemeToggle";
 import MusicToggle from "./MusicToggle";
 
@@ -14,6 +20,7 @@ const nav = [
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const mouseX = useMotionValue(Infinity);
   return (
     <header className="fixed inset-x-0 top-0 z-50">
       <div className="mx-auto max-w-6xl px-4">
@@ -25,15 +32,15 @@ export default function Header() {
             <span className="inline-block size-2 rounded-full bg-primary" />
             <span className="font-serif text-lg tracking-wide">Aroma Café</span>
           </a>
-          <nav className="hidden items-center gap-6 md:flex">
+          <nav
+            className="hidden items-center gap-6 md:flex"
+            onMouseMove={(e) => mouseX.set(e.pageX)}
+            onMouseLeave={() => mouseX.set(Infinity)}
+          >
             {nav.map((n) => (
-              <a
-                key={n.href}
-                href={n.href}
-                className="text-sm text-white/80 transition-colors hover:text-white"
-              >
+              <NavDockLink key={n.href} href={n.href} mouseX={mouseX}>
                 {n.label}
-              </a>
+              </NavDockLink>
             ))}
             {/* <a href="#menu" className="btn-primary">Order Now</a> */}
             <MusicToggle />
@@ -91,5 +98,35 @@ export default function Header() {
         )}
       </AnimatePresence>
     </header>
+  );
+}
+
+function NavDockLink({
+  href,
+  children,
+  mouseX,
+}: {
+  href: string;
+  children: React.ReactNode;
+  mouseX: any;
+}) {
+  const ref = useRef<HTMLAnchorElement | null>(null);
+  const distance = useTransform(mouseX, (val: number) => {
+    const rect = ref.current?.getBoundingClientRect();
+    if (!rect) return Infinity;
+    return Math.abs(val - (rect.left + rect.width / 2));
+  });
+  const scaleRaw = useTransform(distance, [0, 80, 200], [1.2, 1.05, 1]);
+  const scale = useSpring(scaleRaw, { mass: 0.1, stiffness: 200, damping: 18 });
+  const opacity = useTransform(distance, [0, 200], [1, 0.8]);
+  return (
+    <motion.a
+      ref={ref}
+      href={href}
+      style={{ scale, opacity, willChange: "transform, opacity" }}
+      className="text-sm text-white/80 transition-colors hover:text-white"
+    >
+      {children}
+    </motion.a>
   );
 }

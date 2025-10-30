@@ -34,19 +34,31 @@ export default function Menu() {
       <div className="container">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="font-serif text-3xl md:text-4xl">Signature Menu</h2>
-          <p className="mt-3 text-muted-foreground">Hover for details • Click to expand</p>
+          <p className="mt-3 text-muted-foreground">
+            Hover for details • Click to expand
+          </p>
         </div>
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {items.map((item) => (
-            <MenuCard key={item.name} {...item} />)
-          )}
+            <MenuCard key={item.name} {...item} />
+          ))}
         </div>
       </div>
     </section>
   );
 }
 
-function MenuCard({ name, price, img, desc }: { name: string; price: string; img: string; desc: string }) {
+function MenuCard({
+  name,
+  price,
+  img,
+  desc,
+}: {
+  name: string;
+  price: string;
+  img: string;
+  desc: string;
+}) {
   const [expanded, setExpanded] = useState(false);
   return (
     <motion.button
@@ -57,10 +69,21 @@ function MenuCard({ name, price, img, desc }: { name: string; price: string; img
     >
       <div className="aspect-square overflow-hidden">
         <motion.img
-          src={img}
+          src={`${img}?auto=compress&cs=tinysrgb&w=900&h=900&fit=crop`}
+          srcSet={`
+            ${img}?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop 400w,
+            ${img}?auto=compress&cs=tinysrgb&w=700&h=700&fit=crop 700w,
+            ${img}?auto=compress&cs=tinysrgb&w=900&h=900&fit=crop 900w
+          `}
+          sizes="(min-width:1024px) 25vw, (min-width:640px) 50vw, 100vw"
           alt={name}
           className="size-full object-cover"
           loading="lazy"
+          decoding="async"
+          style={{
+            contentVisibility: "auto",
+            containIntrinsicSize: "400px 400px",
+          }}
           whileHover={{ scale: 1.06 }}
           transition={{ type: "spring", stiffness: 120, damping: 15 }}
         />

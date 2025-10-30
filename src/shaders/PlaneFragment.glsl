@@ -1,5 +1,6 @@
 uniform float uTime;
 uniform vec2 uResolution;
+uniform float uIntro;
 varying vec2 vUv;
 
     void mainImage(out vec4 O, vec2 I)
@@ -19,7 +20,7 @@ varying vec2 vUv;
             z += d = .01 + .1 * length(p.xz);
         }
 
-        O = tanh(O);
+        O = tanh(O) * uIntro;
     }
     void main() {
       vec4 color;

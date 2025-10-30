@@ -24,7 +24,10 @@ const testimonials = [
 ];
 
 export default function Testimonials() {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "center" });
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    loop: true,
+    align: "center",
+  });
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
@@ -40,13 +43,18 @@ export default function Testimonials() {
       <div className="container">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="font-serif text-3xl md:text-4xl">Kind Words</h2>
-          <p className="mt-3 text-muted-foreground">What our guests are saying</p>
+          <p className="mt-3 text-muted-foreground">
+            What our guests are saying
+          </p>
         </div>
         <div className="mt-10">
           <div className="overflow-hidden" ref={emblaRef}>
             <div className="flex">
               {testimonials.map((t, i) => (
-                <div key={i} className="min-w-0 shrink-0 grow-0 basis-full px-4 md:basis-2/3 md:px-8">
+                <div
+                  key={i}
+                  className="min-w-0 shrink-0 grow-0 basis-full px-4 md:basis-2/3 md:px-8"
+                >
                   <motion.div
                     initial={{ opacity: 0.6, scale: 0.98 }}
                     whileInView={{ opacity: 1, scale: 1 }}
@@ -55,7 +63,19 @@ export default function Testimonials() {
                     className="glass-card mx-auto max-w-2xl p-8 text-center"
                   >
                     <div className="mx-auto mb-4 size-14 overflow-hidden rounded-full ring-2 ring-primary/30">
-                      <img src={t.avatar} alt={t.name} className="size-full object-cover" />
+                      <img
+                        src={`${t.avatar}`}
+                        alt={t.name}
+                        width={56}
+                        height={56}
+                        loading="lazy"
+                        decoding="async"
+                        className="size-full object-cover"
+                        style={{
+                          contentVisibility: "auto",
+                          containIntrinsicSize: "56px 56px",
+                        }}
+                      />
                     </div>
                     <p className="text-lg text-foreground/90">“{t.text}”</p>
                     <div className="mt-4 flex items-center justify-center gap-1 text-primary">
@@ -63,7 +83,9 @@ export default function Testimonials() {
                         <span key={j}>★</span>
                       ))}
                     </div>
-                    <div className="mt-2 text-sm text-muted-foreground">{t.name}</div>
+                    <div className="mt-2 text-sm text-muted-foreground">
+                      {t.name}
+                    </div>
                   </motion.div>
                 </div>
               ))}
