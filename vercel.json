@@ -1,5 +1,12 @@
 {
   "installCommand": "pnpm install --no-frozen-lockfile",
   "buildCommand": "pnpm build",
-  "framework": null
+  "framework": null,
+  "outputDirectory": "dist/spa",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
 }

@@ -5,12 +5,16 @@ import path from "path";
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   server: {
-    host: "::",
+    host: process.env.VERCEL ? "0.0.0.0" : "::",
     port: 8080,
     fs: {
       allow: [".", "./src", "./shared"],
       deny: [".env", ".env.*", "*.{crt,pem}", "**/.git/**"],
     },
+  },
+  preview: {
+    host: "0.0.0.0",
+    port: 8080,
   },
   build: {
     outDir: "dist/spa",

@@ -14,7 +14,7 @@
     "dev": "vite",
     "build": "vite build",
     "build:client": "vite build",
-    "start": "vite preview --host --port 8080",
+    "start": "vite preview --port 8080",
     "test": "vitest --run",
     "format.fix": "prettier --write .",
     "typecheck": "tsc"
